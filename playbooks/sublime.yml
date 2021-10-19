@@ -1,4 +1,4 @@
-- hosts: "*guibuntu"
+- hosts: "guibuntu"
   become: true
   tasks:
 
