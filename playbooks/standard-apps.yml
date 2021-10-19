@@ -1,0 +1,9 @@
+- hosts: "*"
+  become: yes
+  tasks:
+    - name: Install packages
+      apt:
+        name: 
+          - curl
+          - tree
+        state: latest

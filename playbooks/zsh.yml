@@ -1,0 +1,60 @@
+- hosts: "*"
+  tasks:
+    - name: Install ZSH and dependencies
+      become: yes
+      apt:
+        name: 
+          - zsh
+          - git
+        state: latest
+    - name: Download oh-my-zsh
+      git:
+        repo: "https://github.com/ohmyzsh/ohmyzsh.git"
+        dest: "/home/ubuntu/.oh-my-zsh"
+        update: no
+    - name: Create Nerdfonts directory
+      become: yes
+      file:
+        path: /usr/share/fonts/nerdfonts
+        state: directory
+    - name: Install powerlevel10k fonts
+      become: yes
+      get_url:
+        dest: /usr/share/fonts/nerdfonts/
+        url: https://github.com/romkatv/powerlevel10k-media/raw/master/{{ item }}
+      with_items:
+        - MesloLGS%20NF%20Regular.ttf
+        - MesloLGS%20NF%20Bold.ttf
+        - MesloLGS%20NF%20Italic.ttf
+        - MesloLGS%20NF%20Bold%20Italic.ttf
+    - name: Download powerlevel10k
+      git:
+        repo: "https://github.com/romkatv/powerlevel10k.git"
+        dest: "/home/ubuntu/.oh-my-zsh/custom/themes/powerlevel10k"
+        update: yes
+        force: yes
+        depth: 1
+    - name: Apply config
+      copy:
+        src: "zsh/{{ item }}"
+        dest: "/home/ubuntu/{{ item }}"
+      with_items:
+        - .zshrc
+        - .p10k.zsh
+    - name: Insall additional plugins
+      git:
+        repo: "{{ item.repo }}"
+        dest: /home/ubuntu/.oh-my-zsh/custom/plugins/{{ item.dest }}
+        update: no
+      with_items:
+        - { repo: https://github.com/zdharma/fast-syntax-highlighting.git, dest: fast-syntax-highlighting }
+        - { repo: https://github.com/zsh-users/zsh-autosuggestions, dest: zsh-autosuggestions }
+    - name: Set permissions
+      file:
+        path: /home/ubuntu/.oh-my-zsh
+        mode: '0750'
+        recurse: yes
+    - name: Change shell
+      user:
+        name: ubuntu
+        shell: /bin/zsh

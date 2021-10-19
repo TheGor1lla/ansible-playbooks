@@ -1,0 +1,32 @@
+- hosts: "*guibuntu"
+  become: true
+  tasks:
+
+    - name: install prerequisites
+      apt:
+        name: apt-transport-https
+        state: present
+
+    - name: add apt key
+      apt_key:
+        url: https://download.sublimetext.com/sublimehq-pub.gpg
+        state: present
+
+    - name: Add apt repository
+      apt_repository: 
+        repo: deb https://download.sublimetext.com/ apt/stable/
+        state: present 
+        filename: sublime-text 
+        update_cache: yes
+
+    - name: install sublime
+      apt:
+        name: sublime-text
+        state: present
+
+    - name: Install package control
+      get_url:
+        url: https://packagecontrol.io/Package%20Control.sublime-package
+        dest: "~/.config/sublime-text-3/Installed Packages"
+
+    #C:\Users\User\AppData\Roaming\Sublime Text 3
