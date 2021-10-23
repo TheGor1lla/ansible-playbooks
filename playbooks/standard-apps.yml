@@ -1,9 +1,82 @@
-- hosts: "*"
-  become: yes
+# asdf expects zsh to be installed
+- hosts: "guibuntu"
   tasks:
     - name: Install packages
+      become: yes
       apt:
         name: 
           - curl
           - tree
+          - snapd
+          - git
+          - steam
+          - wget
+          - apt-transport-https
+          - ca-certificates
+          - gnupg
+          - lsb-release
         state: latest
+
+    - name: Install snap packages
+      become: yes
+      community.general.snap:
+        name:
+          - vlc
+          - discord 
+          - spotify
+          - intellij-idea-ultimate #maybe needs classic
+          - signal-desktop
+
+    - name: Download asdf
+      git:
+        repo: "https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1"
+        dest: "~/.asdf"
+        update: yes
+        version: v0.8.1
+    - name: Configure asdf for zsh
+      shell: echo "$HOME/.asdf/asdf.sh" >> ~/.zshrc
+      when: /bin/zsh != 0
+
+
+    - name: add element apt key
+      become: yes
+      apt_key:
+        url: https://packages.element.io/debian/element-io-archive-keyring.gpg
+        state: present
+
+    - name: add element apt repository
+      become: yes
+      apt_repository: 
+        repo: deb https://packages.element.io/debian/ default main
+        state: present 
+        filename: element-io 
+        update_cache: yes
+
+    - name: install element
+      become: yes
+      apt:
+        name: element-desktop
+
+    - name: add docker apt key
+      become: yes
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: add docker apt repository
+      become: yes
+      apt_repository: 
+        repo: "deb https://download.docker.com/linux/ubuntu focal stable"
+        state: present 
+        filename: docker
+        update_cache: yes
+
+    - name: install docker
+      become: yes
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+
+#  LUKS
