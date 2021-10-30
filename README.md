@@ -1,6 +1,8 @@
 # Playbooks
 
-## Dependencies
+My setup for standardized apps across multiple Linux installations.
+
+## Setup
 
 To setup your localhost as the ansible main, execute:
 
@@ -9,17 +11,6 @@ ansible-playbook playbooks/01-host.yml
 
 ```
 
-## ToDo
+## Don't forget
 
-### Sublime
-
-* Plugins
-* Theme
-
-### ZSH
-
-* Install for all users
-
-### Host Machine
-
-* Windows font
+Install the zsh fonts on host machine and tell your terminal to use it when using SSH to an ansible-deployed host.

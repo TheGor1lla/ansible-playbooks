@@ -1,0 +1,23 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Agila Theme",
+		"Anaconda",
+		"BracketHighlighter",
+		"Local Packages",
+		"MarkdownPreview",
+		"Package Control",
+		"Pretty JSON",
+		"SideBarEnhancements",
+		"sublime-kubernetes-autocomplete",
+		"Table Editor",
+	],
+	"repositories":
+	[
+		"https://github.com/xr1337/sublime-kubernetes-autocomplete"
+	],
+}
