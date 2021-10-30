@@ -56,5 +56,5 @@
         recurse: yes
     - name: Change shell
       user:
-        name: ubuntu
+        name: {{ ansible_user }}
         shell: /bin/zsh
