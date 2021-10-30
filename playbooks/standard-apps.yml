@@ -15,6 +15,7 @@
           - ca-certificates
           - gnupg
           - lsb-release
+          - vim
         state: latest
 
     - name: Install snap packages
@@ -24,18 +25,38 @@
           - vlc
           - discord 
           - spotify
-          - intellij-idea-ultimate #maybe needs classic
           - signal-desktop
+
+    - name: Install IntelliJ
+      become: yes
+      community.general.snap:
+        name: intellij-idea-ultimate
+        classic: yes
 
     - name: Download asdf
       git:
-        repo: "https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1"
+        repo: "https://github.com/asdf-vm/asdf.git"
         dest: "~/.asdf"
         update: yes
         version: v0.8.1
+
+    - name: Looking for ZSH 
+      stat: 
+        path: ~/.zshrc
+      register: stat_result
+
+    - name: Check if ZSH is configured
+      lineinfile: 
+         path: ~/.zshrc
+         line: ". $HOME/.asdf/asdf.sh"
+         state: present
+      check_mode: yes
+      register: config_line
+      failed_when: (config_line is changed) or (config_line is failed)
+
     - name: Configure asdf for zsh
-      shell: echo "$HOME/.asdf/asdf.sh" >> ~/.zshrc
-      when: /bin/zsh != 0
+      shell: echo ". $HOME/.asdf/asdf.sh" >> ~/.zshrc
+      when: stat_result.stat.exists and config_line.stat.exists
 
 
     - name: add element apt key
@@ -78,5 +99,3 @@
           - docker-ce
           - docker-ce-cli
           - containerd.io
-
-#  LUKS

@@ -35,7 +35,7 @@
         force: yes
         depth: 1
     - name: Apply config
-      copy:
+      ansible.builtin.template:
         src: "zsh/{{ item }}"
         dest: "~/{{ item }}"
       with_items:
@@ -47,7 +47,7 @@
         dest: ~/.oh-my-zsh/custom/plugins/{{ item.dest }}
         update: no
       with_items:
-        - { repo: https://github.com/zdharma/fast-syntax-highlighting.git, dest: fast-syntax-highlighting }
+        - { repo: https://github.com/zdharma-continuum/fast-syntax-highlighting.git, dest: fast-syntax-highlighting }
         - { repo: https://github.com/zsh-users/zsh-autosuggestions, dest: zsh-autosuggestions }
     - name: Set permissions
       file:
@@ -56,5 +56,5 @@
         recurse: yes
     - name: Change shell
       user:
-        name: {{ ansible_user }}
+        name: "{{ ansible_user }}"
         shell: /bin/zsh

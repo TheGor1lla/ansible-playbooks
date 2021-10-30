@@ -20,7 +20,7 @@ ansible-playbook playbooks/<PLAYBOOK.YML> -i inventory/hosts  -u <CLIENT_SSH_USE
 
 ```
 
-
 ## Don't forget
 
 Activate the ZSH fonts on every terminal
+Also installing ZSH for current user on local machine may suck....

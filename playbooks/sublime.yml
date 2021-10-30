@@ -30,12 +30,12 @@
     - name: Install package control
       get_url:
         url: https://packagecontrol.io/Package%20Control.sublime-package
-        dest: "~/.config/sublime-text-3/Installed Packages"
+        dest: "~/.config/sublime-text/Packages/User/Package Control.sublime-package"
 
     - name: Install packages and config
       copy:
         src: "sublime/{{ item }}"
-        dest: "~/.config/sublime-text-3/Installed Packages/{{ item }}"
+        dest: "~/.config/sublime-text/Packages/User/{{ item }}"
       with_items:
         - Anaconda.sublime-settings
         - Package Control.sublime-settings
