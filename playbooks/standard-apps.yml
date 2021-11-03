@@ -16,6 +16,7 @@
           - gnupg
           - lsb-release
           - vim
+          - unattended-upgrades
         state: latest
 
     - name: Install snap packages
